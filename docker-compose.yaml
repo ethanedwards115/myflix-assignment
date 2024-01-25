@@ -1,0 +1,63 @@
+version: "2"
+
+services:
+  catalog:
+    build:
+      dockerfile: Catalog/Dockerfile
+      args:
+        - VIDEO_SERVER="localhost"
+        - DATABASE="localhost"
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./templates/:/catalog/templates
+      - ./static/:/catalog/static
+    networks:
+      default:
+        ipv4_address: 172.16.0.1
+  
+  #video1:
+    #image: acobley/nginxvideo
+
+  # Build data taken from ./NginxVideo/Build
+  videoserv:
+    build:
+      context: ./NginxVideo
+      dockerfile: Dockerfile
+    command: /usr/local/nginx-streaming/sbin/nginx
+    ports:
+      - "1935:1935"
+      - "80:80"
+    volumes:
+      - ./NginxVideo/www:/var/www
+    container_name: videoserv
+    networks:
+      default:
+        ipv4_address: 172.16.0.2
+  
+  mongodb:
+    image: mongo:3.6
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: restheart
+      MONGO_INITDB_ROOT_PASSWORD: R3ste4rt!
+    
+  
+  restheart:
+    image: softinstigate/restheart:4.1.0
+    links:
+      - mongodb:mongodb
+    ports:
+      - "8080:8080"
+    networks:
+      default:
+        ipv4_address: 172.16.0.3
+
+networks:
+  default:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.0.0/16
+          ip_range: 172.16.5.0/24
+          gateway: 172.16.5.254

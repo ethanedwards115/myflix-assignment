@@ -1,0 +1,22 @@
+{
+    "video": {
+        "server": 1,
+        "Name": "Big Buck Bunny",
+        "file": "bbb.mp4",
+        "thumb": "bbb-th.png",
+        "pic": "bbb.png",
+        "uuid": "380613d5-71b3-4f24-8a58-ca1a260b49d3",
+        "category": "3d"
+    }
+}
+{
+    "video": {
+        "server": 1,
+        "Name": "Steamboat Willie",
+        "file": "sw.mp4",
+        "thumb": "sw-th.jpg",
+        "pic": "sw.jpg",
+        "uuid": "380613d5-71b3-4f24-8a58-ca1a26b167a2",
+        "category": "cartoon"
+    }
+}
